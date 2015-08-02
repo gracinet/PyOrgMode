@@ -507,7 +507,7 @@ class OrgNode(OrgPlugin):
             # Creating a new node and assigning parameters
             current = OrgNode.Element() 
             current.level = len(heading[0][0])
-            current.heading = re.sub(":([\w]+):","",heading[0][3]) # Remove tags
+            current.heading = re.sub(":([\w]+:)*","",heading[0][3]) # Remove tags
             current.priority = heading[0][2].strip('[#]')
             current.parent = parent
             if heading[0][1]:
@@ -562,8 +562,8 @@ class OrgNode(OrgPlugin):
                     output = output + "[#" + self.priority + "] "
                 output = output + self.heading
   
-                for tag in self.tags:
-                    output= output + ":" + tag + ":"
+                if self.tags:
+                    output += ':' + ':'.join(self.tags) + ':'
   
                 output = output + "\n"
     
